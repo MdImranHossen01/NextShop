@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Productify - A Next.js 15 Product Management App
 
-## Getting Started
+A simple application built with Next.js 15 (App Router), Tailwind CSS, and NextAuth.js. This project features public pages for viewing products and protected pages for managing them.
 
-First, run the development server:
+**Live Site:** [Your Vercel Link Here]
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
+## Setup & Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+    ```
+2.  Navigate to the project directory:
+    ```bash
+    cd your-repo-name
+    ```
+3.  Install dependencies:
+    ```bash
+    npm install
+    ```
+4.  Create a `.env.local` file in the root of the project and add your environment variables. You can generate a `NEXTAUTH_SECRET` with `openssl rand -base64 32`.
+    ```
+    NEXTAUTH_SECRET=your_secret_key
+    NEXTAUTH_URL=http://localhost:3000
+    ```
+5.  Run the development server:
+    ```bash
+    npm run dev
+    ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Route Summary
 
-## Learn More
+-   `/` - **Landing Page**: Publicly accessible page with a hero section and featured products.
+-   `/login` - **Login Page**: Page for users to log in. Uses mock credentials (`test@example.com` / `password`).
+-   `/products` - **Product List Page**: Publicly accessible page displaying all available products.
+-   `/products/[id]` - **Product Details Page**: Publicly accessible dynamic page showing details for a single product.
+-   `/dashboard/add-product` - **Add Product Page**: **Protected route**. Only accessible to authenticated users. Contains a form to add new products to the list.
 
-To learn more about Next.js, take a look at the following resources:
+## API Routes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   `GET /api/products` - Fetches all products.
+-   `GET /api/products/[id]` - Fetches a single product by ID.
+-   `POST /api/products` - **Protected endpoint**. Adds a new product to the database.
