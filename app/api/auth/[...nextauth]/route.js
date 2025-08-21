@@ -1,8 +1,16 @@
 import NextAuth from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions = {
   providers: [
+    // Google OAuth Provider
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    
+    // Email/Password Credentials Provider
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
@@ -10,9 +18,9 @@ export const authOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // This is where you would check credentials against a database.
-        // For this demo, we'll accept a static user.
+        // This is a mock user check. In a real app, you would validate against a database.
         if (credentials.email === "test@example.com" && credentials.password === "password") {
+          // On success, return a user object
           return { id: "1", name: "Test User", email: "test@example.com" };
         }
         // Return null if user data could not be retrieved
@@ -21,14 +29,16 @@ export const authOptions = {
     })
   ],
   pages: {
-    signIn: '/login', // Redirect users to our custom login page
+    signIn: '/login', // Directs users to your custom login page
   },
   session: {
-    strategy: 'jwt',
+    strategy: 'jwt', // Use JSON Web Tokens for session management
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET, // Your secret key for signing tokens
 };
 
+// Initialize NextAuth with the options
 const handler = NextAuth(authOptions);
 
+// Export the handler for GET and POST requests
 export { handler as GET, handler as POST };
