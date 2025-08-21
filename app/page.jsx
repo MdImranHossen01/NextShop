@@ -1,6 +1,6 @@
-import Navbar from './components/Navbar';
+
 import Hero from './components/Hero';
-import Footer from './components/Footer';
+
 import ProductCard from './components/ProductCard';
 import { products } from '../lib/data';
 
@@ -10,7 +10,7 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Navbar />
+      
       <main className="flex-grow">
         <Hero />
         {/* Product Highlights Section */}
@@ -25,7 +25,7 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-      <Footer />
+     
     </div>
   );
 }
