@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { ShoppingBagIcon, UserCircleIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 
+
 export default function Navbar() {
   const { data: session, status } = useSession();
 
@@ -27,6 +28,7 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center">
+            
             {status === 'authenticated' ? (
               <div className="flex items-center gap-4">
                 <span className="text-sm text-gray-700 hidden sm:block">{session.user.email}</span>
