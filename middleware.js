@@ -1,3 +1,13 @@
-export { default } from "next-auth/middleware"
+// middleware.js
+import { withAuth } from "next-auth/middleware"
 
-export const config = { matcher: ["/dashboard/:path*"] }
+export default withAuth({
+  pages: {
+    signIn: "/login",
+  },
+})
+
+// Apply middleware only to the routes you want to protect
+export const config = {
+  matcher: ["/dashboard/:path*"], // Protects only /dashboard and its sub-routes
+}

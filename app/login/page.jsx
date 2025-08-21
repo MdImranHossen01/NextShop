@@ -2,34 +2,41 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('test@example.com');
   const [password, setPassword] = useState('password');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // For loading state
+
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/products';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true); // Start loading
 
     try {
       const result = await signIn('credentials', {
-        redirect: false, // We will handle redirect manually
+        redirect: false, // Handle redirect manually
         email,
         password,
       });
 
       if (result.error) {
         setError('Invalid email or password');
+        setIsLoading(false); // Stop loading on error
       } else {
-        // Redirect to the products page on successful login
-        router.push('/products');
+        // Redirect using the callbackUrl on successful login
+        router.push(callbackUrl);
       }
     } catch (error) {
       setError('An error occurred. Please try again.');
+      setIsLoading(false); // Stop loading on catch
     }
   };
 
@@ -77,9 +84,10 @@ export default function LoginPage() {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              disabled={isLoading} // Disable button when loading
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400 disabled:cursor-not-allowed"
             >
-              Sign in
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
           </div>
         </form>
